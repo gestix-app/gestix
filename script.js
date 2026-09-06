@@ -1,119 +1,278 @@
-const links = document.querySelectorAll(".side-link");
-
-const panels = document.querySelectorAll(".panel");
-
-const title = document.getElementById("panel-title");
-
-const modal = document.getElementById("subscribeModal");
-
-const modalTitle = document.getElementById("modalTitle");
-
-const modalText = document.getElementById("modalText");
-
-const closeModal = document.getElementById("closeModal");
-
-const modalOk = document.getElementById("modalOk");
-
-
-const titles = {
-
-  overview: "Resumen general",
-
-  sales: "Ventas",
-
-  stock: "Stock",
-
-  clients: "Clientes",
-
-  used: "Recepción de usados",
-
-  analytics: "Analítica"
-
+const plans = {
+Inicial: '$ 19.900 /mes',
+Profesional: '$ 34.900 /mes',
+Premium: '$ 59.900 /mes'
 };
 
+const paymentLinks = {
+Inicial: 'https://mpago.la/1DXMUDA',
+Profesional: 'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=8af536f5f60d4be48512342ed38cb9e4',
+Premium: 'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=9766c1bc814443b48589759487315609'
+};
 
-links.forEach(link => {
+const demo = {
+dashboard: [
+'Dashboard',
+'Resumen del negocio',
+['$ 8.420.500', '$ 2.185.300', '248', '1.284'],
+['Ventas', 'Ganancia estimada', 'Stock', 'Clientes']
+],
+ventas: [
+'Ventas',
+'Operaciones',
+['$ 486.500', '12', '$ 40.541', '$ 121.300'],
+['Ventas hoy', 'Operaciones', 'Ticket promedio', 'Ganancia']
+],
+stock: [
+'Stock',
+'Productos en stock',
+['248', '$ 42,8M', '7', '2'],
+['Productos', 'Valor de stock', 'Stock bajo', 'Agotados']
+],
+clientes: [
+'Clientes',
+'Clientes',
+['1.284', '96', '324', '$ 482K'],
+['Total clientes', 'Nuevos este mes', 'Clientes frecuentes', 'Deuda pendiente']
+],
+usados: [
+'Equipos usados',
+'Equipos usados',
+['37', '8', '21', '$ 12,6M'],
+['Recibidos este mes', 'En evaluación', 'Listos para venta', 'Valor recibido']
+]
+};
 
-  link.addEventListener("click", () => {
+function renderDemo(key = 'dashboard') {
+const d = demo[key];
 
-    const target = link.dataset.panel;
+document.getElementById('demoTitle').textContent = d[0];
 
-    links.forEach(x => {
-      x.classList.remove("active");
-    });
+document.getElementById('demoContent').innerHTML = ` <aside> <b>F</b> <i>⌂</i> <i>▣</i> <i>▤</i> <i>◉</i> <i>◌</i> <i>⚙</i> </aside>
 
-    link.classList.add("active");
+```
+<div class="demo-main">
+  <div class="demo-head">
+    <div>
+      <small>${d[0]}</small>
+      <h3>${d[1]}</h3>
+    </div>
 
-    panels.forEach(panel => {
-      panel.classList.remove("active-panel");
-    });
+    <button class="fake">
+      + ${
+        key === 'usados'
+          ? 'Recibir equipo'
+          : key === 'ventas'
+          ? 'Registrar venta'
+          : 'Nuevo registro'
+      }
+    </button>
+  </div>
 
-    document
-      .getElementById("panel-" + target)
-      .classList.add("active-panel");
+  <div class="demo-metrics">
+    ${d[2]
+      .map(
+        (x, i) => `
+          <div>
+            <small>${d[3][i]}</small>
+            <strong>${x}</strong>
+            <em>↑ ${i % 2 ? '8,2' : '12,4'}%</em>
+          </div>
+        `
+      )
+      .join('')}
+  </div>
 
-    title.textContent =
-      titles[target] || "Resumen general";
+  <div class="demo-table">
+    <div class="table-head">
+      <b>
+        ${
+          key === 'stock'
+            ? 'Inventario'
+            : key === 'clientes'
+            ? 'Clientes recientes'
+            : key === 'usados'
+            ? 'Últimos equipos'
+            : 'Actividad reciente'
+        }
+      </b>
+      <span>Ver todo →</span>
+    </div>
 
-  });
+    <div class="row">
+      <div>
+        <b>iPhone 15 Pro 256GB</b>
+        <small>
+          IMEI ****7291 ·
+          ${
+            key === 'usados'
+              ? 'Batería 87% · Muy buen estado'
+              : 'Operación registrada'
+          }
+        </small>
+      </div>
 
+      <strong>$ 1.890.000</strong>
+      <em>Completada</em>
+    </div>
+
+    <div class="row">
+      <div>
+        <b>Samsung Galaxy S24</b>
+        <small>IMEI ****1148 · Información detallada</small>
+      </div>
+
+      <strong>$ 1.320.000</strong>
+      <em>Disponible</em>
+    </div>
+  </div>
+</div>
+```
+
+`;
+}
+
+renderDemo();
+
+document.querySelectorAll('.tabs button').forEach(button => {
+button.onclick = () => {
+document
+.querySelectorAll('.tabs button')
+.forEach(x => x.classList.remove('active'));
+
+```
+button.classList.add('active');
+
+renderDemo(button.dataset.demo);
+```
+
+};
 });
 
+/* =========================
+PLANES Y MERCADO PAGO
+========================= */
 
-document.querySelectorAll(".btn-plan").forEach(button => {
+const modal = document.getElementById('modal');
 
-  button.addEventListener("click", () => {
+document.querySelectorAll('.choose').forEach(button => {
+button.onclick = () => {
+const plan = button.dataset.plan;
 
-    const plan = button.dataset.plan;
+```
+document.getElementById('chosen').textContent = plan;
+document.getElementById('chosenPrice').textContent = plans[plan];
 
-    modalTitle.textContent =
-      `Plan ${plan}`;
+modal.classList.add('show');
+document.body.style.overflow = 'hidden';
+```
 
-    modalText.textContent =
-      `Seleccionaste el plan ${plan}. En la versión conectada, este botón puede llevar directamente al checkout de Mercado Pago.`;
-
-    modal.classList.add("show");
-
-  });
-
+};
 });
 
+/* Cerrar modal */
 
-closeModal.addEventListener("click", () => {
+document.getElementById('close').onclick = close;
 
-  modal.classList.remove("show");
+modal.onclick = event => {
+if (event.target === modal) {
+close();
+}
+};
 
+function close() {
+modal.classList.remove('show');
+document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', event => {
+if (event.key === 'Escape') {
+close();
+}
 });
 
+/* =========================
+BOTÓN CONTINUAR AL PAGO
+========================= */
 
-modalOk.addEventListener("click", () => {
+document.getElementById('pay').onclick = () => {
 
-  modal.classList.remove("show");
+const selectedPlan =
+document.getElementById('chosen').textContent.trim();
 
-});
+const paymentUrl = paymentLinks[selectedPlan];
 
+if (!paymentUrl) {
+alert('No se encontró el enlace de pago para este plan.');
+return;
+}
 
-modal.addEventListener("click", event => {
+// Redirigir a Mercado Pago
+window.location.href = paymentUrl;
+};
 
-  if (event.target === modal) {
+/* =========================
+FAQ
+========================= */
 
-    modal.classList.remove("show");
+document.querySelectorAll('.faq button').forEach(button => {
+button.onclick = () => {
 
-  }
-
-});
-
+```
+const item = button.parentElement;
 
 document
-  .getElementById("demoAction")
-  .addEventListener("click", () => {
-
-    modalTitle.textContent =
-      "Nueva venta";
-
-    modalText.textContent =
-      "Esta es una demostración visual del dashboard. En el SaaS real se abriría el formulario de nueva venta.";
-
-    modal.classList.add("show");
-
+  .querySelectorAll('.faq article')
+  .forEach(x => {
+    if (x !== item) {
+      x.classList.remove('open');
+    }
   });
+
+item.classList.toggle('open');
+```
+
+};
+});
+
+/* =========================
+MENÚ MOBILE
+========================= */
+
+const menu = document.querySelector('.menu');
+const nav = document.querySelector('nav');
+
+menu.onclick = () => {
+
+const open = nav.classList.toggle('open');
+
+if (open) {
+
+```
+nav.style.display = 'flex';
+nav.style.position = 'absolute';
+nav.style.top = '72px';
+nav.style.left = '0';
+nav.style.right = '0';
+nav.style.flexDirection = 'column';
+nav.style.padding = '20px 25px';
+nav.style.background = '#0b0f18';
+nav.style.borderBottom = '1px solid #ffffff14';
+```
+
+} else {
+
+```
+nav.style.display = '';
+```
+
+}
+};
+
+nav.querySelectorAll('a').forEach(link => {
+link.onclick = () => {
+if (innerWidth <= 950) {
+nav.style.display = '';
+}
+};
+});
