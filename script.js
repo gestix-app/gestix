@@ -60,19 +60,25 @@ links.forEach(link => {
 });
 
 
+const paymentLinks = {
+  Inicial: "https://mpago.la/1DXMUDA",
+  Profesional: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=8af536f5f60d4be48512342ed38cb9e4",
+  Premium: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=9766c1bc814443b48589759487315609"
+};
+
 document.querySelectorAll(".btn-plan").forEach(button => {
 
   button.addEventListener("click", () => {
 
     const plan = button.dataset.plan;
+    const paymentUrl = paymentLinks[plan];
 
-    modalTitle.textContent =
-      `Plan ${plan}`;
+    if (!paymentUrl) {
+      alert("No se encontró el enlace de pago para este plan.");
+      return;
+    }
 
-    modalText.textContent =
-      `Seleccionaste el plan ${plan}. En la versión conectada, este botón puede llevar directamente al checkout de Mercado Pago.`;
-
-    modal.classList.add("show");
+    window.location.href = paymentUrl;
 
   });
 
