@@ -1,47 +1,35 @@
-GESTIX — WEB 100% EDITABLE
+# Gestix Web — versión editable
 
-ARCHIVOS:
-- index.html: estructura de la web. Acá podés SACAR o MOVER imágenes y secciones.
-- style.css: tamaños, colores, espacios y diseño.
-- script.js: textos, precios, enlaces y nombres de logos.
-- logos PNG: imágenes utilizadas.
+## Dónde cambiar cosas
 
-PARA CAMBIAR PRECIOS:
-Abrí script.js y buscá:
-precios: {
-  inicial: "$19.900",
-  profesional: "$34.900",
-  premium: "$59.900"
-}
+### 1. Precios, Mercado Pago, textos y enlace de ingreso
+Abrí `script.js` y buscá:
 
-PARA CAMBIAR LOGOS:
-En script.js:
-logos: {
-  header: "gestix-logo-blanco.png",
-  hero: "gestix-logo-blanco.png",
-  footer: "gestix-logo-blanco.png"
-}
-Subí tu nueva imagen a la raíz del repositorio y escribí su nombre exacto.
+`GESTIX_CONFIG`
 
-PARA CAMBIAR TAMAÑO DE LOGOS:
-Abrí style.css y buscá:
---logo-header: 112px;
---logo-hero: 118px;
---logo-footer: 88px;
+Ahí podés modificar:
+- `loginUrl` → enlace del botón Ingresar a Gestix
+- `topbar` → texto superior
+- `heroTitle` / `heroHighlight` → título principal
+- `heroText` → descripción
+- `plans.Inicial.price` → precio Inicial
+- `plans.Profesional.price` → precio Profesional
+- `plans.Premium.price` → precio Premium
+- `checkoutUrl` → enlace de Mercado Pago de cada plan
 
-PARA SACAR UNA IMAGEN:
-Abrí index.html y eliminá el bloque indicado por los comentarios:
-LOGO HEADER, LOGO HERO o LOGO FOOTER.
+### 2. Tamaño de logos y colores
+Abrí `style.css` y arriba de todo buscá `GESTIX — CONFIGURACIÓN VISUAL FÁCIL`.
 
-PARA MOVER UNA IMAGEN:
-En index.html cortá el bloque <img ...> (o su contenedor) y pegalo en la sección donde querés que aparezca.
+Podés cambiar:
+- `--gestix-logo-header`
+- `--gestix-logo-hero`
+- `--gestix-logo-footer`
+- `--gestix-blue`
+- `--gestix-blue-dark`
+- `--gestix-bg`
 
-IMPORTANTE:
-- Subí los archivos directamente a la raíz del repositorio de GitHub.
-- No borres style.css ni script.js.
-- Si cambiás una imagen, el nombre debe coincidir exactamente.
-- Después de guardar en GitHub, esperá unos segundos y actualizá con Ctrl+F5.
+### 3. Logos
+Los archivos están en la misma carpeta que `index.html`, por lo que no hay que moverlos a una carpeta `assets`.
 
-NO TOCAR:
-- Los enlaces de navegación salvo que sepas qué querés cambiar.
-- La estructura de JavaScript debajo de "NO NECESITÁS TOCAR ABAJO".
+## Para publicar
+Subí a la raíz de GitHub los archivos del ZIP. Si reemplazás `index.html`, `style.css` y `script.js`, los cambios se reflejan en GitHub Pages después de unos instantes.
