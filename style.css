@@ -59,3 +59,10 @@
 .footer-brand{display:block!important;margin-bottom:14px}
 .footer-brand img{width:175px!important;height:auto!important;display:block;object-fit:contain}
 @media(max-width:600px){.brand-logo{width:125px!important}.cta-brand img{width:175px!important}.footer-brand img{width:150px!important}}
+
+
+/* LOGO FINAL — versión transparente, sin recuadro */
+.brand-logo{width:185px!important;height:auto!important;display:block;object-fit:contain;background:transparent!important}
+.cta-brand img{width:440px!important;height:auto!important;max-width:82%;display:block;margin:0 auto 30px;object-fit:contain;background:transparent!important}
+.footer-brand img{width:190px!important;height:auto!important;display:block;object-fit:contain;background:transparent!important}
+@media(max-width:600px){.brand-logo{width:145px!important}.cta-brand img{width:320px!important;max-width:88%}.footer-brand img{width:165px!important}}
