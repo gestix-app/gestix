@@ -66,3 +66,25 @@
 .cta-brand img{width:440px!important;height:auto!important;max-width:82%;display:block;margin:0 auto 30px;object-fit:contain;background:transparent!important}
 .footer-brand img{width:190px!important;height:auto!important;display:block;object-fit:contain;background:transparent!important}
 @media(max-width:600px){.brand-logo{width:145px!important}.cta-brand img{width:320px!important;max-width:88%}.footer-brand img{width:165px!important}}
+
+/* ===== HERO / HEADER INTEGRADOS - DISEÑO APROBADO ===== */
+.navbar{max-width:1240px;height:86px;padding:0 28px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.brand-icon{width:34px!important;height:34px!important;object-fit:contain;display:block}
+.brand>span{font-size:22px;font-weight:900;letter-spacing:.16em;color:#f5f7fb;line-height:1}
+.desktop-nav{font-size:16px;gap:30px}
+.nav-login{font-size:15px;padding:12px 18px}
+.hero.hero-centered{max-width:1240px;display:flex;flex-direction:column;align-items:center;text-align:center;min-height:630px;margin:24px auto 0;padding:70px 28px 72px;border-radius:28px;background:linear-gradient(135deg,#2160dc 0%,#173d93 56%,#123477 100%);box-shadow:0 25px 80px rgba(20,63,150,.18);gap:0}
+.hero-logo-top{display:flex;justify-content:center;align-items:center;margin-bottom:34px}
+.hero-logo-top img{width:150px;height:auto;display:block;object-fit:contain}
+.hero-centered .hero-copy{max-width:1100px;display:flex;flex-direction:column;align-items:center}
+.hero-centered .eyebrow{color:#d5e1ff;margin-bottom:18px;font-size:13px}
+.hero-centered h1{font-size:clamp(44px,5.1vw,70px);line-height:1.04;letter-spacing:-.055em;margin:0 0 22px}
+.hero-centered h1 span{color:#9bb8ff;background:none;-webkit-text-fill-color:#9bb8ff}
+.hero-centered .hero-text{max-width:850px;color:#e0e8fb;font-size:19px;line-height:1.65;margin:0}
+.hero-centered .hero-actions{justify-content:center;margin:30px 0 0}
+.hero-centered .btn-light{background:#fff;color:#0d1930;border-color:#fff}
+.hero-centered .btn-secondary{border-color:rgba(255,255,255,.35);background:transparent;color:#fff}
+.hero-visual-hidden{display:none!important}
+@media(max-width:980px){.hero.hero-centered{margin:18px 20px 0;min-height:590px;padding:60px 28px 65px}.hero-centered h1{font-size:clamp(40px,6vw,58px)}}
+@media(max-width:600px){.brand-icon{width:28px!important;height:28px!important}.brand>span{font-size:19px}.navbar{height:72px;padding:0 18px}.hero.hero-centered{margin:14px 12px 0;border-radius:22px;padding:52px 18px 58px;min-height:540px}.hero-logo-top{margin-bottom:27px}.hero-logo-top img{width:125px}.hero-centered h1{font-size:39px;line-height:1.06}.hero-centered .hero-text{font-size:16px}.hero-centered .hero-actions{width:100%;flex-direction:column}.hero-centered .hero-actions .btn{width:100%}}
