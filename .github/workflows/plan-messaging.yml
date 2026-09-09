@@ -22,21 +22,10 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
           replacements = {
-              'analítica y catálogo online Premium.': 'analítica, catálogo online y logística avanzada.',
-              '<h3>Profesional</h3><p>Para negocios que quieren crecer.</p>': '<h3>Plus</h3><p>Para negocios que quieren crecer con más herramientas de gestión.</p>',
-              'data-plan="Profesional" href="https://app.gestix.com.ar/suscribirse?plan=professional">Elegir Profesional': 'data-plan="Plus" href="https://app.gestix.com.ar/suscribirse?plan=professional">Elegir Plus',
-              '<b>Todo lo de Profesional, más:</b>': '<b>Todo lo de Plus, más:</b>',
-              '<li>✓ <strong>Catálogo online</strong></li><li>✓ Automatizaciones avanzadas</li><li>✓ Integraciones</li><li>✓ Conexiones con IA</li>': '<li>✓ <strong>Catálogo online</strong></li><li>✓ <strong>Envíos y logística</strong></li><li>✓ <strong>Integración con Tiendanube</strong></li><li>✓ Automatizaciones avanzadas</li><li>✓ Integraciones</li><li>✓ Conexiones con IA</li>',
-              '<article class="plan featured"><div class="popular">MÁS ELEGIDO</div>': '<article class="plan featured"><div class="popular">MÁS ELEGIDO</div>',
-              '<li>✓ Historial de cotización</li><li>✓ Analítica y reportes</li><li>✓ Usuarios y permisos</li>': '<li>✓ Historial de cotización</li><li>✓ Analítica y reportes</li><li>✓ Facturación electrónica ARCA</li><li>✓ Catálogo online</li><li>✓ Usuarios y permisos</li>',
-              '<div class="catalog-copy"><span class="eyebrow">EXCLUSIVO PREMIUM</span><h2>Convertí tu stock en una <span>vidriera online.</span></h2><p>Con el plan Premium podés publicar tus productos en un catálogo online profesional y mantener precios y stock actualizados desde Gestix.': '<div class="catalog-copy"><span class="eyebrow">PLUS Y PREMIUM</span><h2>Convertí tu stock en una <span>vidriera online.</span></h2><p>Con los planes Plus y Premium podés publicar tus productos en un catálogo online profesional y mantener precios y stock actualizados desde Gestix.',
-              '<a href="#planes" class="btn btn-primary">Ver Premium <span>→</span></a></div>': '<a href="#planes" class="btn btn-primary">Ver planes <span>→</span></a></div>',
-              '<tr><td>Catálogo online</td><td>—</td><td>—</td><td class="premium-cell">✓</td></tr>': '<tr><td>Catálogo online</td><td>—</td><td>✓</td><td class="premium-cell">✓</td></tr><tr><td>Facturación electrónica ARCA</td><td>—</td><td>✓</td><td>✓</td></tr><tr><td>Envíos y logística</td><td>—</td><td>—</td><td class="premium-cell">✓</td></tr><tr><td>Integración con Tiendanube</td><td>—</td><td>—</td><td class="premium-cell">✓</td></tr>',
+              '<article><button>¿El catálogo online está incluido en todos los planes?<span>+</span></button><p>No. El catálogo online es una funcionalidad exclusiva del plan Premium.</p></article>': '<article><button>¿El catálogo online está incluido en todos los planes?<span>+</span></button><p>No. El catálogo online está incluido en los planes Plus y Premium.</p></article>',
           }
           for old, new in replacements.items():
-              if old not in s:
-                  print(f'SKIP: pattern not found: {old[:80]}')
-              else:
+              if old in s:
                   s = s.replace(old, new, 1)
           p.write_text(s, encoding='utf-8')
       - name: Commit changes
@@ -48,5 +37,5 @@ jobs:
             exit 0
           fi
           git add index.html
-          git commit -m 'Update Gestix plan feature messaging'
+          git commit -m 'Fix Gestix catalog plan FAQ'
           git push
