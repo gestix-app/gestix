@@ -1,0 +1,50 @@
+name: Update Gestix prices
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Replace published prices
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          replacements = {
+              '$19.900': '$24.900',
+              '$34.900': '$44.900',
+              '$59.900': '$79.900',
+              '19.900': '24.900',
+              '34.900': '44.900',
+              '59.900': '79.900',
+          }
+          changed = []
+          for p in Path('.').rglob('*'):
+              if not p.is_file() or '.git' in p.parts or '.github' in p.parts:
+                  continue
+              try:
+                  s = p.read_text()
+              except (UnicodeDecodeError, OSError):
+                  continue
+              old = s
+              for a, b in replacements.items():
+                  s = s.replace(a, b)
+              if s != old:
+                  p.write_text(s)
+                  changed.append(str(p))
+          print('Changed:', changed)
+          PY
+      - name: Commit price update
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No price changes found'
+            exit 0
+          fi
+          git commit -m 'Update Gestix subscription prices'
+          git push
