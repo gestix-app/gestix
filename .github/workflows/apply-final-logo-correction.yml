@@ -1,0 +1,32 @@
+name: Apply final logo correction
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  update:
+    if: "!contains(github.event.head_commit.message, 'apply final logo correction')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update logo presentation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          s = s.replace('https://upload.wikimedia.org/wikipedia/commons/d/d2/Logo_Tiendanube_2025.svg','https://upload.wikimedia.org/wikipedia/commons/7/78/Logo_de_Tiendanube.svg')
+          css = '''
+.integration-brand-card:nth-child(4) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{background:transparent!important;padding:0!important;mix-blend-mode:screen;filter:invert(1) hue-rotate(180deg)!important}
+@media(max-width:620px){.integration-brand-card .brandmark img{max-width:170px;max-height:72px}.integration-brand-card:nth-child(2) .brandmark img{max-width:175px}.integration-brand-card:nth-child(4) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{max-width:175px;max-height:72px}.ml-integration .brandmark img{max-width:180px;max-height:76px}.ml-card .ml-visual img{width:240px;max-height:135px}}
+'''
+          if css.strip() not in s:
+              s = s.replace('</style>', css + '</style>', 1)
+          p.write_text(s)
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html
+          git diff --cached --quiet || git commit -m 'apply final logo correction'
+          git push
