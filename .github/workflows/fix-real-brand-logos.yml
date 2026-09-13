@@ -6,7 +6,7 @@ permissions:
   contents: write
 jobs:
   fix:
-    if: "!contains(github.event.head_commit.message, 'fix: final integration logos')"
+    if: "!contains(github.event.head_commit.message, 'configure final logo correction') && !contains(github.event.head_commit.message, 'apply final logo correction')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,12 +20,12 @@ jobs:
           css='''
 /* FINAL REAL BRAND LOGOS */
 .integration-brand-card:nth-child(4) .brandmark img{background:transparent!important;padding:0!important;mix-blend-mode:screen!important;filter:invert(1) hue-rotate(180deg)!important}
-.integration-brand-card:nth-child(5) .brandmark img{background:transparent!important;padding:0!important;filter:brightness(0) invert(1)!important}
+.integration-brand-card:nth-child(5) .brandmark img{background:#fff!important;padding:12px 20px!important;border-radius:14px!important;filter:none!important}
 .ml-integration .brandmark img{width:260px!important;max-width:260px!important;max-height:100px!important;object-fit:contain!important;filter:brightness(1.45) saturate(1.15) drop-shadow(0 8px 18px #0008)!important;transform:scale(1.12)}
 .ml-card .ml-visual img{width:300px!important;max-width:100%!important;max-height:150px!important;object-fit:contain!important}
 @media(max-width:620px){
 .integration-brand-card:nth-child(4) .brandmark img{max-width:175px!important;max-height:72px!important}
-.integration-brand-card:nth-child(5) .brandmark img{max-width:175px!important;max-height:72px!important}
+.integration-brand-card:nth-child(5) .brandmark img{max-width:175px!important;max-height:72px!important;padding:10px 16px!important}
 .ml-integration .brandmark img{width:220px!important;max-width:220px!important;max-height:90px!important;transform:scale(1.12)}
 .ml-card .ml-visual img{width:270px!important;max-width:100%!important;max-height:140px!important}
 }
