@@ -10,7 +10,7 @@ cards = [
     ('Andreani', 'Envíos · Premium'),
     ('Tiendanube', 'E-commerce · Premium'),
 ]
-needle = r'\\1</div>'
+needle = r'\1</div>'
 for name, subtitle in cards:
     replacement = f'<h3>{name}</h3><small>{subtitle}</small></div>'
     if needle not in s:
