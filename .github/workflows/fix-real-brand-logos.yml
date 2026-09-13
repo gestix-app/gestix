@@ -18,8 +18,17 @@ jobs:
           p=Path('index.html')
           s=p.read_text()
           css='''
-.integration-brand-card:nth-child(4) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{background:transparent!important;padding:0!important;mix-blend-mode:screen;filter:invert(1) hue-rotate(180deg)!important}
-@media(max-width:620px){.integration-brand-card .brandmark img{max-width:170px;max-height:72px}.integration-brand-card:nth-child(2) .brandmark img{max-width:175px}.integration-brand-card:nth-child(4) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{max-width:175px;max-height:72px}.ml-integration .brandmark img{max-width:180px;max-height:76px}.ml-card .ml-visual img{width:240px;max-height:135px}}
+/* Final integration-logo correction */
+.integration-brand-card:nth-child(4) .brandmark img{background:transparent!important;padding:0!important;mix-blend-mode:screen;filter:invert(1) hue-rotate(180deg)!important}
+.integration-brand-card:nth-child(5) .brandmark img{background:transparent!important;padding:0!important;filter:brightness(0) invert(1)!important}
+.ml-integration .brandmark img{width:260px!important;max-width:260px!important;max-height:100px!important;object-fit:contain!important;filter:brightness(1.45) saturate(1.15) drop-shadow(0 8px 18px #0008)!important;transform:scale(1.12)}
+.ml-card .ml-visual img{width:300px!important;max-width:100%!important;max-height:150px!important;object-fit:contain!important}
+@media(max-width:620px){
+  .integration-brand-card:nth-child(4) .brandmark img{max-width:175px!important;max-height:72px!important}
+  .integration-brand-card:nth-child(5) .brandmark img{max-width:175px!important;max-height:72px!important}
+  .ml-integration .brandmark img{width:220px!important;max-width:220px!important;max-height:90px!important;transform:scale(1.12)}
+  .ml-card .ml-visual img{width:270px!important;max-width:100%!important;max-height:140px!important}
+}
 '''
           s=s.replace('</style>',css+'</style>',1)
           p.write_text(s)
