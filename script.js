@@ -4,3 +4,13 @@ function renderDemo(key){const d=demoData[key]||demoData.dashboard;if(demoConten
 document.querySelectorAll('.tabs button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderDemo(btn.dataset.demo)}));
 document.querySelectorAll('.faq-list button').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.classList.toggle('open')));
 const menu=document.querySelector('.menu-btn');const nav=document.querySelector('.desktop-nav');if(menu){menu.addEventListener('click',()=>{nav.classList.toggle('mobile-open');});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('mobile-open')))}
+
+/* Gestix integrations: visual-only correction. Keep the existing grid/card design unchanged. */
+const integrationFix=document.createElement('style');
+integrationFix.textContent=`
+.integration-brand-card .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important;filter:none!important;mix-blend-mode:normal!important;box-shadow:none!important}
+.integration-brand-card:first-child .brandmark img{filter:none!important}
+.integration-brand-card:nth-child(4) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important}
+.integration-brand-card:nth-child(2) .brandmark img,.integration-brand-card:nth-child(6) .brandmark img{filter:brightness(0) invert(1)!important}
+`;
+document.head.appendChild(integrationFix);
