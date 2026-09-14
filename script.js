@@ -5,26 +5,39 @@ document.querySelectorAll('.tabs button').forEach(btn=>btn.addEventListener('cli
 document.querySelectorAll('.faq-list button').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.classList.toggle('open')));
 const menu=document.querySelector('.menu-btn');const nav=document.querySelector('.desktop-nav');if(menu){menu.addEventListener('click',()=>{nav.classList.toggle('mobile-open');});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('mobile-open')))}
 
-/* Gestix integrations: use the real brand assets directly. */
+/* Gestix integrations: clean brand presentation. No recoloring, blending or fake backgrounds. */
 const integrationLogos={
   1:'https://upload.wikimedia.org/wikipedia/commons/a/a3/ARCA_logo.png?v=20260914',
   2:'https://upload.wikimedia.org/wikipedia/commons/a/ad/Correo_Argentino_Logo.svg?v=20260914',
   3:'https://upload.wikimedia.org/wikipedia/commons/c/ce/OCA_logo.svg?v=20260914',
   4:'https://upload.wikimedia.org/wikipedia/commons/b/b8/Logo_de_Andreani.jpg?v=20260914',
-  5:'https://upload.wikimedia.org/wikipedia/commons/7/78/Logo_de_Tiendanube.svg?v=20260914',
+  5:'https://upload.wikimedia.org/wikipedia/commons/d/d2/Logo_Tiendanube_2025.svg?v=20260914',
   6:'https://upload.wikimedia.org/wikipedia/commons/6/60/Mercado_Libre_wordmark_%28Spanish_version%29.svg?v=20260914'
 };
 const integrationCards=document.querySelectorAll('.integration-brand-card');
 integrationCards.forEach((card,index)=>{const img=card.querySelector('.brandmark img');if(!img)return;const src=integrationLogos[index+1];if(src)img.src=src;img.removeAttribute('style');});
 const integrationFix=document.createElement('style');
 integrationFix.textContent=`
-.integration-brand-card .brandmark{background:transparent!important}
-.integration-brand-card .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important;box-shadow:none!important;object-fit:contain!important;max-width:240px!important;max-height:94px!important}
-.integration-brand-card:nth-child(1) .brandmark img{filter:none!important}
-.integration-brand-card:nth-child(2) .brandmark img{filter:brightness(0) invert(1)!important}
-.integration-brand-card:nth-child(3) .brandmark img{filter:none!important}
-.integration-brand-card:nth-child(4) .brandmark img{filter:none!important;mix-blend-mode:darken!important}
-.integration-brand-card:nth-child(5) .brandmark img{filter:none!important}
-.integration-brand-card:nth-child(6) .brandmark img{filter:brightness(0) invert(1)!important}
+.integration-brand-card .brandmark{position:relative;width:100%;height:145px;margin:0 0 18px;display:flex;align-items:center;justify-content:center}
+.integration-brand-card .brandmark:before{content:"";position:absolute;left:22px;right:22px;top:0;height:145px;border-radius:14px;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.18)}
+.integration-brand-card .brandmark img{position:relative;z-index:1;display:block;max-width:78%;max-height:92px;width:auto;height:auto;object-fit:contain;background:transparent!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:none!important;mix-blend-mode:normal!important}
+.integration-brand-card:first-child .brandmark img{max-width:82%;max-height:58px}
+.integration-brand-card:nth-child(2) .brandmark img{max-width:82%;max-height:78px}
+.integration-brand-card:nth-child(3) .brandmark img{max-width:78%;max-height:72px}
+.integration-brand-card:nth-child(4) .brandmark img{max-width:82%;max-height:70px}
+.integration-brand-card:nth-child(5) .brandmark img{max-width:82%;max-height:70px}
+.integration-brand-card:nth-child(6) .brandmark img{max-width:82%;max-height:82px}
+.ml-visual img{filter:none!important;background:transparent!important;mix-blend-mode:normal!important}
+@media(max-width:620px){
+.integration-brand-card .brandmark{height:82px;margin-bottom:12px}
+.integration-brand-card .brandmark:before{left:7px;right:7px;height:82px;border-radius:11px}
+.integration-brand-card .brandmark img{max-width:82%;max-height:60px}
+.integration-brand-card:first-child .brandmark img{max-width:86%;max-height:38px}
+.integration-brand-card:nth-child(2) .brandmark img{max-width:86%;max-height:52px}
+.integration-brand-card:nth-child(3) .brandmark img{max-width:82%;max-height:48px}
+.integration-brand-card:nth-child(4) .brandmark img{max-width:86%;max-height:48px}
+.integration-brand-card:nth-child(5) .brandmark img{max-width:86%;max-height:48px}
+.integration-brand-card:nth-child(6) .brandmark img{max-width:86%;max-height:55px}
+}
 `;
 document.head.appendChild(integrationFix);
