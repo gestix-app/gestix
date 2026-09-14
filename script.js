@@ -12,5 +12,6 @@ integrationFix.textContent=`
 .integration-brand-card:first-child .brandmark img{filter:none!important}
 .integration-brand-card:nth-child(4) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important}
 .integration-brand-card:nth-child(2) .brandmark img,.integration-brand-card:nth-child(6) .brandmark img{filter:brightness(0) invert(1)!important}
+.integration-brand-card:nth-child(4) .brandmark img{mix-blend-mode:darken!important}
 `;
 document.head.appendChild(integrationFix);
