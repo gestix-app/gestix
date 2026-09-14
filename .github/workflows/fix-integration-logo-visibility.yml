@@ -1,0 +1,31 @@
+name: Fix integration logo visibility
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix integration logos
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '.brandmark img{max-width:360px;max-height:135px;width:auto;height:auto;object-fit:contain;background:transparent!important;padding:0!important;border-radius:0!important;box-shadow:none!important;filter:none!important;mix-blend-mode:normal!important}'
+          new = old + '.integration-brand-card:nth-child(1) .brandmark img,.integration-brand-card:nth-child(2) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{filter:brightness(0) invert(1)!important}.integration-brand-card:nth-child(6) .brandmark img{filter:brightness(0) saturate(100%) invert(82%) sepia(98%) saturate(1000%) hue-rotate(5deg) brightness(105%) contrast(105%)!important}'
+          if old not in s:
+              raise SystemExit('target CSS block not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'fix: make integration logos visible'
+          git push
