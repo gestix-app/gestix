@@ -5,22 +5,26 @@ document.querySelectorAll('.tabs button').forEach(btn=>btn.addEventListener('cli
 document.querySelectorAll('.faq-list button').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.classList.toggle('open')));
 const menu=document.querySelector('.menu-btn');const nav=document.querySelector('.desktop-nav');if(menu){menu.addEventListener('click',()=>{nav.classList.toggle('mobile-open');});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('mobile-open')))}
 
-/* Gestix integrations: use the real brand assets; no white plates or blend modes. */
-const integrationCards=document.querySelectorAll('.integration-brand-card');
-const officialLogoSources={
-  1:'https://upload.wikimedia.org/wikipedia/commons/a/a3/ARCA_logo.png',
-  2:'https://upload.wikimedia.org/wikipedia/commons/a/ad/Correo_Argentino_Logo.svg',
-  3:'https://upload.wikimedia.org/wikipedia/commons/c/ce/OCA_logo.svg',
-  4:'https://www.redhat.com/cms/managed-files/Andreani-isologo-vector.svg?itok=ouJTRA1g',
-  5:'https://upload.wikimedia.org/wikipedia/commons/d/d2/Logo_Tiendanube_2025.svg',
-  6:'https://upload.wikimedia.org/wikipedia/commons/6/60/Mercado_Libre_wordmark_%28Spanish_version%29.svg'
+/* Gestix integrations: use the real brand assets directly. */
+const integrationLogos={
+  1:'https://upload.wikimedia.org/wikipedia/commons/a/a3/ARCA_logo.png?v=20260914',
+  2:'https://upload.wikimedia.org/wikipedia/commons/a/ad/Correo_Argentino_Logo.svg?v=20260914',
+  3:'https://upload.wikimedia.org/wikipedia/commons/c/ce/OCA_logo.svg?v=20260914',
+  4:'https://upload.wikimedia.org/wikipedia/commons/b/b8/Logo_de_Andreani.jpg?v=20260914',
+  5:'https://upload.wikimedia.org/wikipedia/commons/7/78/Logo_de_Tiendanube.svg?v=20260914',
+  6:'https://upload.wikimedia.org/wikipedia/commons/6/60/Mercado_Libre_wordmark_%28Spanish_version%29.svg?v=20260914'
 };
-integrationCards.forEach((card,index)=>{const img=card.querySelector('.brandmark img');if(img&&officialLogoSources[index+1]){img.src=officialLogoSources[index+1];img.removeAttribute('style')}});
+const integrationCards=document.querySelectorAll('.integration-brand-card');
+integrationCards.forEach((card,index)=>{const img=card.querySelector('.brandmark img');if(!img)return;const src=integrationLogos[index+1];if(src)img.src=src;img.removeAttribute('style');});
 const integrationFix=document.createElement('style');
 integrationFix.textContent=`
-.integration-brand-card .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important;box-shadow:none!important;mix-blend-mode:normal!important}
-.integration-brand-card:nth-child(2) .brandmark img,.integration-brand-card:nth-child(6) .brandmark img{filter:brightness(0) invert(1)!important}
-.integration-brand-card:nth-child(4) .brandmark img{filter:none!important}
+.integration-brand-card .brandmark{background:transparent!important}
+.integration-brand-card .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important;box-shadow:none!important;object-fit:contain!important;max-width:240px!important;max-height:94px!important}
+.integration-brand-card:nth-child(1) .brandmark img{filter:none!important}
+.integration-brand-card:nth-child(2) .brandmark img{filter:brightness(0) invert(1)!important}
+.integration-brand-card:nth-child(3) .brandmark img{filter:none!important}
+.integration-brand-card:nth-child(4) .brandmark img{filter:none!important;mix-blend-mode:darken!important}
 .integration-brand-card:nth-child(5) .brandmark img{filter:none!important}
+.integration-brand-card:nth-child(6) .brandmark img{filter:brightness(0) invert(1)!important}
 `;
 document.head.appendChild(integrationFix);
