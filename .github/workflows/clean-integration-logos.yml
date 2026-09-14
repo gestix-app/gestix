@@ -1,0 +1,61 @@
+name: Clean integration logos
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  clean:
+    if: ${{ !contains(github.event.head_commit.message, 'fix: clean integration logos') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean logo CSS and references
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('index.html')
+          s = p.read_text()
+          s = s.replace('assets/logos/correo-argentino.webp', 'assets/logos/correo-argentino.png')
+          for old in [
+              '.integration-brand-card:first-child .brandmark img{filter:brightness(0) invert(1)}',
+              '.integration-brand-card:nth-child(2) .brandmark img{filter:brightness(0) invert(1)}',
+              '.integration-brand-card:nth-child(4) .brandmark img{mix-blend-mode:screen;filter:invert(1) hue-rotate(180deg)}',
+          ]:
+              s = s.replace(old, '')
+          s = re.sub(r'\\n\\.integration-brand-card:nth-child\\(4\\) \\.brandmark img\\{mix-blend-mode:screen!important.*?\\n</style>', '\\n</style>', s, flags=re.S)
+          s = s.replace('.ml-visual img{width:min(300px,100%);max-height:160px;object-fit:contain;background:#fff;border-radius:16px;padding:10px 18px;filter:drop-shadow(0 15px 25px #0007)}', '.ml-visual img{width:min(300px,100%);max-height:160px;object-fit:contain;background:transparent;border-radius:0;padding:0;filter:none}')
+          clean = '''
+.integration-brand-card{min-height:300px;padding:28px 22px 24px}
+.brandmark{height:120px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;width:100%}
+.brandmark img{display:block;max-width:250px;max-height:100px;width:auto;height:auto;object-fit:contain;filter:none!important;mix-blend-mode:normal!important;background:transparent!important;padding:0!important;border-radius:0!important;box-shadow:none!important}
+.integration-brand-card:nth-child(1) .brandmark img{max-width:245px;max-height:100px}
+.integration-brand-card:nth-child(2) .brandmark img{max-width:250px;max-height:100px}
+.integration-brand-card:nth-child(3) .brandmark img{max-width:235px;max-height:95px}
+.integration-brand-card:nth-child(4) .brandmark img{max-width:250px;max-height:100px}
+.integration-brand-card:nth-child(5) .brandmark img{max-width:235px;max-height:95px}
+.integration-brand-card:nth-child(6) .brandmark img{max-width:245px;max-height:100px}
+.integration-brand-card h3{font-size:18px;margin:0 0 3px}
+.integration-brand-card small{font-size:13px;color:#8fb0cf;min-height:21px}
+.official-badge{margin-top:16px;padding:7px 14px}
+.ml-integration .brandmark img{filter:none!important;transform:none!important}
+.ml-card .ml-visual img{background:transparent!important;padding:0!important;border-radius:0!important;filter:none!important}
+@media(max-width:620px){
+  .integration-brand-card{min-height:250px;padding:22px 10px 17px}
+  .integration-brand-card .brandmark{height:82px;margin-bottom:12px}
+  .integration-brand-card .brandmark img{max-width:155px;max-height:66px}
+  .integration-brand-card:nth-child(2) .brandmark img{max-width:165px}
+  .integration-brand-card:nth-child(4) .brandmark img{max-width:175px;max-height:72px}
+  .integration-brand-card:nth-child(6) .brandmark img{max-width:175px;max-height:72px}
+}
+'''
+          s = s.replace('</style>', clean + '</style>', 1)
+          p.write_text(s)
+          PY
+          rm -f .github/workflows/clean-integration-logos.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html .github/workflows/clean-integration-logos.yml
+          git commit -m 'fix: clean integration logos'
+          git push
