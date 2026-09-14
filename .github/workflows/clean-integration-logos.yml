@@ -2,6 +2,7 @@ name: Clean integration logos
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
