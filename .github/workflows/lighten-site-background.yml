@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - '.github/workflows/lighten-site-background.yml'
+      - '.github/lighten-background-trigger'
 
 permissions:
   contents: write
