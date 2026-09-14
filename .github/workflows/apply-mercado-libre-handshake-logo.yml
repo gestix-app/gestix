@@ -1,0 +1,38 @@
+name: Apply Mercado Libre handshake logo
+
+on:
+  push:
+    paths:
+      - .github/workflows/apply-mercado-libre-handshake-logo.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace Mercado Libre logo
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = 'https://upload.wikimedia.org/wikipedia/commons/6/60/Mercado_Libre_wordmark_%28Spanish_version%29.svg?v=20260914fix'
+          new = 'https://i.logos-download.com/114454/32896-717400b83dd96e5d61a4044b82a43deb.svg/Mercado_Libre_Logo_2021.svg?dl='
+          count = s.count(old)
+          if count != 2:
+              raise SystemExit(f'Expected 2 Mercado Libre wordmark references, found {count}')
+          p.write_text(s.replace(old, new), encoding='utf-8')
+          PY
+      - name: Commit and remove one-shot workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git rm .github/workflows/apply-mercado-libre-handshake-logo.yml
+          git commit -m "fix: use Mercado Libre handshake logo on site"
+          git push
