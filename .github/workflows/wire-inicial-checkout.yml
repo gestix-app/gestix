@@ -1,0 +1,42 @@
+name: Wire Inicial checkout
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  wire:
+    if: ${{ !contains(github.event.head_commit.message, 'Wire Inicial checkout') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Inicial plan checkout
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const path = 'index.html';
+            const current = await github.rest.repos.getContent({owner, repo, path, ref: 'main'});
+            const raw = Buffer.from(current.data.content, 'base64').toString('utf8');
+            const marker = '<h3>Inicial</h3>';
+            const markerIndex = raw.indexOf(marker);
+            if (markerIndex < 0) throw new Error('No se encontró el plan Inicial en index.html');
+            const planStart = raw.lastIndexOf('<div class="plan', markerIndex);
+            const nextPlan = raw.indexOf('<div class="plan', markerIndex + marker.length);
+            const planEnd = nextPlan >= 0 ? nextPlan : raw.length;
+            const block = raw.slice(planStart, planEnd);
+            const updatedBlock = block.replace(/(<a\b[^>]*\bhref=")[^"]*(")/, '$1https://mpago.la/1DXMUDA$2');
+            if (updatedBlock === block) throw new Error('No se encontró el botón del plan Inicial');
+            const updated = raw.slice(0, planStart) + updatedBlock + raw.slice(planEnd);
+            await github.rest.repos.createOrUpdateFileContents({
+              owner,
+              repo,
+              path,
+              message: 'Wire Inicial checkout',
+              content: Buffer.from(updated, 'utf8').toString('base64'),
+              sha: current.data.sha,
+              branch: 'main'
+            });
