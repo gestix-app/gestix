@@ -5,13 +5,22 @@ document.querySelectorAll('.tabs button').forEach(btn=>btn.addEventListener('cli
 document.querySelectorAll('.faq-list button').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.classList.toggle('open')));
 const menu=document.querySelector('.menu-btn');const nav=document.querySelector('.desktop-nav');if(menu){menu.addEventListener('click',()=>{nav.classList.toggle('mobile-open');});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('mobile-open')))}
 
-/* Gestix integrations: visual-only correction. Keep the existing grid/card design unchanged. */
+/* Gestix integrations: use the real brand assets; no white plates or blend modes. */
+const integrationCards=document.querySelectorAll('.integration-brand-card');
+const officialLogoSources={
+  1:'https://upload.wikimedia.org/wikipedia/commons/a/a3/ARCA_logo.png',
+  2:'https://upload.wikimedia.org/wikipedia/commons/a/ad/Correo_Argentino_Logo.svg',
+  3:'https://upload.wikimedia.org/wikipedia/commons/c/ce/OCA_logo.svg',
+  4:'https://www.redhat.com/cms/managed-files/Andreani-isologo-vector.svg?itok=ouJTRA1g',
+  5:'https://upload.wikimedia.org/wikipedia/commons/d/d2/Logo_Tiendanube_2025.svg',
+  6:'https://upload.wikimedia.org/wikipedia/commons/6/60/Mercado_Libre_wordmark_%28Spanish_version%29.svg'
+};
+integrationCards.forEach((card,index)=>{const img=card.querySelector('.brandmark img');if(img&&officialLogoSources[index+1]){img.src=officialLogoSources[index+1];img.removeAttribute('style')}});
 const integrationFix=document.createElement('style');
 integrationFix.textContent=`
-.integration-brand-card .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important;filter:none!important;mix-blend-mode:normal!important;box-shadow:none!important}
-.integration-brand-card:first-child .brandmark img{filter:none!important}
-.integration-brand-card:nth-child(4) .brandmark img,.integration-brand-card:nth-child(5) .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important}
+.integration-brand-card .brandmark img{background:transparent!important;padding:0!important;border-radius:0!important;box-shadow:none!important;mix-blend-mode:normal!important}
 .integration-brand-card:nth-child(2) .brandmark img,.integration-brand-card:nth-child(6) .brandmark img{filter:brightness(0) invert(1)!important}
-.integration-brand-card:nth-child(4) .brandmark img{mix-blend-mode:darken!important}
+.integration-brand-card:nth-child(4) .brandmark img{filter:none!important}
+.integration-brand-card:nth-child(5) .brandmark img{filter:none!important}
 `;
 document.head.appendChild(integrationFix);
